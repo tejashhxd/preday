@@ -1,0 +1,53 @@
+.decor{
+    color: #c75fed;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    justify-content: space-between;
+    width: 100vw;
+    height: 10vh;
+    background-color: #1f2120;
+}
+
+.logo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    font-size: xx-large;
+    height: 100%;
+    width: 50%;
+    margin-left: 3vw;
+}
+
+.userCred{
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    height: 100%;
+    width: 50%;
+    color: white;
+}
+
+.username{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 2vw;
+}
+
+.logout{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    margin-right: 3vw;
+}
+
+image{
+    height: 100%;
+    width: 100%;
+}

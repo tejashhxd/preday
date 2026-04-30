@@ -1,28 +1,28 @@
 import Authentication from "./Component/Authentication";
 import "./App.css";
-import Register from "./Component/Register";
+import Home from "./Component/Home";
 import { useState, useEffect } from "react";
 
 function App() {
   
-  const [user, setUser] = useState(null);
+  const [username, setUsername] = useState(null);
   useEffect(() => {
     const saved = localStorage.getItem("authUser");
-    if (saved) setUser(JSON.parse(saved));
+    if (saved) setUsername(JSON.parse(saved));
   }, []);
 
   const handleAuth = (value) => {
     localStorage.setItem("authUser", JSON.stringify(value));
-    setUser(value);
+    setUsername(value);
   };
 
   const logOut = () => {
     localStorage.removeItem("authUser");
-    setUser(null);
+    setUsername(null);
   };
 
   return (
-    <>{user === null ? <Authentication setUser={handleAuth} /> : <Register logOut={logOut}/>}</>
+    <>{username === null ? <Authentication setUsername={handleAuth} /> : <Home logOut={logOut} username={username} /> } </>
   );
 }
 

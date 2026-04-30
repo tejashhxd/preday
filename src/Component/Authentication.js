@@ -1,9 +1,10 @@
 import "../Style/Authentication.css";
 import { useState } from "react";
 
-export default function Authentication({ setUser }) {
+export default function Authentication({ setUsername }) {
   const [state, setState] = useState("Login");
   const [message, setMessage] = useState(null);
+  const [error, setError] = useState("");
   const BASE_LINK = "https://predaybackend.onrender.com";
 
   const getUsername = () => {
@@ -18,56 +19,70 @@ export default function Authentication({ setUser }) {
     return password;
   };
 
-  const getUser = (username, password) => {
-    fetch(`${BASE_LINK}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
 
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setMessage(data);
-        console.log(message.map((message) => message.message));
-      })
-      .catch((err) => {
-        console.log("unable to login", err);
+  async function getUser(username, password) {
+    try{
+      const response = await fetch(`${BASE_LINK}/login`,{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          "username": username,
+          "password": password
+        })
       });
-  };
 
-  const createUser = (username, password) => {
-    fetch(`${BASE_LINK}/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      const data = await response.json();
 
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setMessage(data);
-        console.log(message.map((message) => message.message));
-      })
-      .catch((err) => {
-        console.log("unable to register", err);
+      if(!response.ok){
+        throw new Error(data.message || "Something went wrong")
+      }
+
+      if(data.message){
+        console.log("true");
+        setMessage("User");
+      }
+
+      if(data.error){
+        console.log("false");
+        setError(data.error);
+      }
+
+    } catch(error) {
+      console.log("Error", error.message);
+    }
+
+  }
+
+  async function createUser(username, password) {
+    try{
+      const response = await fetch(`${BASE_LINK}/register`,{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }, 
+        body: JSON.stringify({
+          "username": username,
+          "password": password
+        })
       });
-  };
 
-  // const getTaks = () => {
-  //   fetch(`${BASE_LINK}/user/tejash/tejash/task`)
-  //     .then(res => res.json())
-  //     .then(data => console.log(data))
-  //     .catch(err => console.log(err))
-  // };
+      const data = await response.json();
+
+      if(!response.ok){
+        throw new Error(data.error || "something went wrong")
+      }
+
+      console.log(data.message);
+
+    } catch(err) {
+      console.log("Error:", err.message);
+    }
+  }
+
+
+
 
   return (
     <>
@@ -84,16 +99,23 @@ export default function Authentication({ setUser }) {
             id="password"
             placeholder={state === "Login" ? "Password" : "Create Password"}
           />
+          {error && <div id="error">{error}</div>}
           <button
             onClick={() => {
               const username = getUsername();
               const password = getPassword();
               if (state === "Login") {
                 getUser(username, password);
-                setUser(username);
+                if(message === "User"){
+                  setError("");
+                  console.log("logging in....");
+                  setUsername(username);
+                } else {
+                  setError(message);
+                }
               } else {
                 createUser(username, password);
-                setUser(username);
+                setUsername(username);
               }
             }}
           >
@@ -105,7 +127,13 @@ export default function Authentication({ setUser }) {
           <div
             className="switch decor"
             onClick={() => {
-              state === "Login" ? setState("Register") : setState("Login");
+              if(state === "Login"){
+                setError("");
+                setState("register");
+              }else{
+                setError("");
+                setState("Login");
+              }
             }}
           >
             {state === "Login" ? "Register" : "Login"}
