@@ -3,9 +3,9 @@ import { useState } from "react";
 
 export default function Authentication({ setUsername }) {
   const [state, setState] = useState("Login");
-  const [message, setMessage] = useState(null);
   const [error, setError] = useState("");
   const BASE_LINK = "https://predaybackend.onrender.com";
+
 
   const getUsername = () => {
     const username = document.getElementById("username").value;
@@ -19,70 +19,75 @@ export default function Authentication({ setUsername }) {
     return password;
   };
 
-
   async function getUser(username, password) {
-    try{
-      const response = await fetch(`${BASE_LINK}/login`,{
+    try {
+      const response = await fetch(`${BASE_LINK}/login`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "username": username,
-          "password": password
-        })
+          username: username,
+          password: password,
+        }),
       });
 
       const data = await response.json();
 
-      if(!response.ok){
-        throw new Error(data.message || "Something went wrong")
+      if (!response.ok) {
+        throw new Error(data.message || "Something went wrong");
       }
 
-      if(data.message){
+      if (data.message) {
         console.log("true");
-        setMessage("User");
+        setError("");
+        console.log("logging in....");
+        setUsername(username);
       }
 
-      if(data.error){
+      if (data.error) {
         console.log("false");
         setError(data.error);
       }
-
-    } catch(error) {
+    } catch (error) {
       console.log("Error", error.message);
     }
-
   }
 
   async function createUser(username, password) {
-    try{
-      const response = await fetch(`${BASE_LINK}/register`,{
+    try {
+      const response = await fetch(`${BASE_LINK}/register`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
-        }, 
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
-          "username": username,
-          "password": password
-        })
+          username: username,
+          password: password,
+        }),
       });
 
       const data = await response.json();
 
-      if(!response.ok){
-        throw new Error(data.error || "something went wrong")
+      if (!response.ok) {
+        throw new Error(data.error || "something went wrong");
       }
 
-      console.log(data.message);
+      if(data.message){
+        console.log(data.message);
+        setError("");
+        setUsername(username);
+      }
 
-    } catch(err) {
+      if(data.error){
+        console.log(data.error);
+        setError(data.error);
+      }
+
+    } catch (err) {
       console.log("Error:", err.message);
     }
   }
-
-
-
 
   return (
     <>
@@ -106,16 +111,8 @@ export default function Authentication({ setUsername }) {
               const password = getPassword();
               if (state === "Login") {
                 getUser(username, password);
-                if(message === "User"){
-                  setError("");
-                  console.log("logging in....");
-                  setUsername(username);
-                } else {
-                  setError(message);
-                }
               } else {
                 createUser(username, password);
-                setUsername(username);
               }
             }}
           >
@@ -127,10 +124,10 @@ export default function Authentication({ setUsername }) {
           <div
             className="switch decor"
             onClick={() => {
-              if(state === "Login"){
+              if (state === "Login") {
                 setError("");
                 setState("register");
-              }else{
+              } else {
                 setError("");
                 setState("Login");
               }
