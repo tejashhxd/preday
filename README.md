@@ -1,70 +1,132 @@
-# Getting Started with Create React App
+# PreDay
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-stack productivity/task management web app built with **React.js**, **Flask**, and **SQLite3** that allows users to register, log in, and manage daily tasks.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Live Demo
 
-### `npm start`
+* **Frontend:** [Add Frontend Deployment Link Here]
+* **Backend API:** [Add Backend Deployment Link Here]
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+* User Registration & Login
+* Persistent Authentication using Local Storage
+* Add New Tasks
+* Delete Tasks
+* Fetch Tasks from Backend API
+* Responsive Frontend UI
+* Full Frontend ↔ Backend Integration
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Tech Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Frontend
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* React.js
+* CSS
+* Axios / Fetch API
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Backend
 
-### `npm run eject`
+* Flask
+* Python
+* SQLite3
+* REST API
+* Render Deployment
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Project Structure
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash id="p2r7lc"
+preday/
+│
+├── public/
+├── src/
+│   ├── Component/
+│   │   ├── Authentication.js
+│   │   ├── Home.js
+│   │   ├── Navbar.js
+│   │   └── Tasks.js
+│   │
+│   ├── App.js
+│   └── index.js
+│
+└── package.json
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## How It Works
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. Users register or log in
+2. Authentication request is sent to Flask backend
+3. User session data is stored in local storage
+4. Logged-in users can create and manage tasks
+5. All task operations communicate with backend API
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## Backend Repository
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+> Private Repository
+> Backend is hosted separately on Render.
 
-### Analyzing the Bundle Size
+**Backend Deployment Link:**
+[Add Your Backend URL Here]
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## Database Note
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+This project currently uses **SQLite3** for database storage.
 
-### Advanced Configuration
+> **Important:** Since the backend is deployed on Render's free tier, the server may enter standby/sleep mode after inactivity.
+> Because SQLite is stored on the instance filesystem, database data may reset/reinitialize when the server restarts or redeploys.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+This is a deployment limitation of the free hosting environment and not an application bug.
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Installation (Frontend)
 
-### `npm run build` fails to minify
+```bash id="p19kdl"
+git clone https://github.com/tejashhxd/preday.git
+cd preday
+npm install
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+## Environment Variables
+
+Create a `.env` file:
+
+```env id="8h5nzy"
+REACT_APP_API_URL=your_backend_url_here
+```
+
+---
+
+## Future Improvements
+
+* Migrate to PostgreSQL / MongoDB for Persistent Cloud Database
+* Add Edit Task Feature
+* Add Due Dates / Priority Levels
+* JWT Authentication
+* Drag & Drop Task Ordering
+* Dark Mode
+
+---
+
+## Author
+
+**Tejash**
+GitHub: https://github.com/tejashhxd
+
