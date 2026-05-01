@@ -6,8 +6,8 @@ A full-stack productivity/task management web app built with **React.js**, **Fla
 
 ## Live Demo
 
-* **Frontend:** [Add Frontend Deployment Link Here]
-* **Backend API:** [Add Backend Deployment Link Here]
+* **Frontend:** https://preday.netlify.app/
+* **Backend API:** https://predaybackend.onrender.com
 
 ---
 
@@ -78,7 +78,7 @@ preday/
 > Backend is hosted separately on Render.
 
 **Backend Deployment Link:**
-[Add Your Backend URL Here]
+https://predaybackend.onrender.com
 
 ---
 
