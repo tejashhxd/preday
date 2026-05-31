@@ -4,9 +4,7 @@ import { useState, useEffect, useRef } from "react";
 export default function Tasks({ username }) {
   const BASE_LINK = "https://predaybackend.onrender.com";
   const [data, setData] = useState([]);
-  const [addtask, setAddtask] = useState("");
   const [refresh, setRefresh] = useState("");
-  const [task, setTask] = useState("");
   const [isSidebarActive, setIsSidebarActive] = useState(false);
   const [isAddTaskActive, setIsAddTaskActive] = useState(false);
   const sidebarRef = useRef();
@@ -62,8 +60,6 @@ export default function Tasks({ username }) {
 
       await getTask(username);
       console.log(task);
-      setAddtask("");
-      setTask("");
     } catch (err) {
       console.log(err.message);
     }
@@ -207,6 +203,7 @@ export default function Tasks({ username }) {
     getDescriptionFrmUser,
     getDateFrmUser,
     username,
+    addTask
   }) {
     return (
       <>
@@ -313,6 +310,7 @@ export default function Tasks({ username }) {
         getDescriptionFrmUser={getDescriptionFrmUser}
         getDateFrmUser={getDateFrmUser}
         username={username}
+        addTask={addTask}
       />
       <div className="main">
         <div className="header">TODAY</div>
