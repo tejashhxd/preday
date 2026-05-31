@@ -1,10 +1,45 @@
 #authentication-body{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     width: 100vw;
     height: 100vh;
+}
+
+.vfx{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 55%;
+  background-image: url("../assets/Login.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  color: white;
+  
+}
+
+.vfx-header{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  font-weight: bold;
+  font-size: 300%;
+}
+
+.vfx-content{
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  width: 100%;
+  font-size: larger;
+  font-weight: lighter;
 }
 
 .credential-box{
@@ -13,7 +48,7 @@
     justify-content: center;
     align-items: center;
     height: 50%;
-    width: 50%;
+    width: 45%;
 }
 
 input {
@@ -72,7 +107,7 @@ button {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 5px;
+    margin: 15px;
     color: #ececec;
     height: 10%;
 }
@@ -88,4 +123,62 @@ a{
 #error {
   color: red;
   margin-bottom: 10px;
+}
+
+/* @media (max-width: 768px) {
+  #authentication-body{
+    flex-direction: column;
+  }
+  .vfx{
+    height: 0;
+    width: 0;
+    visibility: hidden;
+    font-size: 0;
+  }
+} */
+
+@media (max-width: 768px) {
+  #authentication-body {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #24123b, #5a4588);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .vfx {
+    display: none;
+  }
+
+  .credential-box {
+    width: 85%;
+    max-width: 350px;
+    padding: 30px 20px;
+    border-radius: 15px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  }
+
+  .credential-header {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: white;
+  }
+
+  input {
+    width: 100%;
+    margin: 10px 0;
+    box-sizing: border-box;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px;
+  }
+
+  .credential-footer {
+    margin-top: 20px;
+  }
 }

@@ -3,9 +3,8 @@ import { useState } from "react";
 
 export default function Authentication({ setUsername }) {
   const [state, setState] = useState("Login");
-  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const BASE_LINK = "https://predaybackend.onrender.com";
-
 
   const getUsername = () => {
     const username = document.getElementById("username").value;
@@ -40,14 +39,14 @@ export default function Authentication({ setUsername }) {
 
       if (data.message) {
         console.log("true");
-        setError("");
+        setMessage("");
         console.log("logging in....");
         setUsername(username);
       }
 
       if (data.error) {
         console.log("false");
-        setError(data.error);
+        setMessage(data.error);
       }
     } catch (error) {
       console.log("Error", error.message);
@@ -73,17 +72,16 @@ export default function Authentication({ setUsername }) {
         throw new Error(data.error || "something went wrong");
       }
 
-      if(data.message){
+      if (data.message) {
         console.log(data.message);
-        setError("");
-        setUsername(username);
+        setMessage(data.message);
+        // setUsername(username);
       }
 
-      if(data.error){
+      if (data.error) {
         console.log(data.error);
-        setError(data.error);
+        setMessage(data.error);
       }
-
     } catch (err) {
       console.log("Error:", err.message);
     }
@@ -92,19 +90,25 @@ export default function Authentication({ setUsername }) {
   return (
     <>
       <div id="authentication-body">
+        <div className="vfx" >
+          <div className="vfx-header">{(state === "Login") ? "Welcome Back!" : "Create User"}</div>
+          <div className="vfx-content">{(state === "Login") ? 
+          "You can sign in to access with your existing account" : 
+          "Plan your days wfficiently with us"}</div>
+        </div>
         <div className="credential-box">
           <div className="credential-header">{state}</div>
           <input
             type="text"
             id="username"
-            placeholder={state === "Login" ? "username" : "Set username"}
+            placeholder={state === "Login" ? "Username" : "Set username"}
           />
           <input
             type="password"
             id="password"
             placeholder={state === "Login" ? "Password" : "Create Password"}
           />
-          {error && <div id="error">{error}</div>}
+          {message && <div id="error">{message}</div>}
           <button
             onClick={() => {
               const username = getUsername();
@@ -116,24 +120,24 @@ export default function Authentication({ setUsername }) {
               }
             }}
           >
-            Next
+            {state === "Login" ? "Sign in" : "sign up"}
           </button>
-        </div>
-        <div className="credential-footer">
-          {state === "Login" ? "New to Preday?" : "Already have an account?"}{" "}
-          <div
-            className="switch decor"
-            onClick={() => {
-              if (state === "Login") {
-                setError("");
-                setState("register");
-              } else {
-                setError("");
-                setState("Login");
-              }
-            }}
-          >
-            {state === "Login" ? "Register" : "Login"}
+          <div className="credential-footer">
+            {state === "Login" ? "New to Preday?" : "Already have an account?"}{" "}
+            <div
+              className="switch decor"
+              onClick={() => {
+                if (state === "Login") {
+                  setMessage("");
+                  setState("Register");
+                } else {
+                  setMessage("");
+                  setState("Login");
+                }
+              }}
+            >
+              {state === "Login" ? "Register" : "Login"}
+            </div>
           </div>
         </div>
       </div>
