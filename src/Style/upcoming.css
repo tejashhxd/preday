@@ -126,6 +126,7 @@ span {
   justify-content: center;
   color: #f0eff1;
   font-size: large;
+  border-bottom: solid #676666;
 }
 
 .sidebar-header-maintext {
@@ -146,21 +147,21 @@ span {
 }
 
 .add-task {
-  border: none;
-  background: transparent;
-  outline: none;
-  font-size: 15px;
   width: 100%;
   padding: 0;
   margin: 0;
-  box-shadow: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   color: white;
-  height: 100%;
-  overflow-wrap: break-word;
-  word-break: break-word;
+  box-shadow: none;
+  font-size: 15px;
 }
 
-.add-task input::placeholder {
+.add-task::placeholder {
   color: #999;
 }
 
@@ -184,30 +185,32 @@ span {
 }
 
 .add-description {
-  border: none;
-  background: transparent;
-  outline: none;
-  font-size: 15px;
   width: 90%;
+  min-height: 120px;
   padding: 0;
   margin: 0;
-  box-shadow: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   color: white;
-  height: 100%;
+  box-shadow: none;
+  font-size: 15px;
+
+  white-space: pre-wrap;
   overflow-wrap: break-word;
   word-break: break-word;
+  resize: none;
+  border-bottom: solid #676666;
 }
 
-.add-description input::placeholder {
+.add-description::placeholder {
   color: #999;
 }
 
 .sidebar-main-duedate-holder {
-  /* display: flex;
-  flex-direction: row;
-  justify-content: center;
-   */
-
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -261,6 +264,14 @@ span {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.btn {
+  width: 100%;
+}
+
+.addtask-footer{
+  flex-direction: column;
 }
 
 @media (max-width: 768px) {

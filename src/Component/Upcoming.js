@@ -90,6 +90,32 @@ export default function Tasks({ username }) {
     }
   }
 
+  async function editTask(username, id, task, description, date) {
+    try {
+      const response = await fetch(`${BASE_LINK}/task`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "Application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          id: id,
+          task: task,
+          description: description,
+          date: date,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "something went wrong");
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
+
   function TaskDiv({
     task,
     id,
@@ -115,6 +141,7 @@ export default function Tasks({ username }) {
               setCurrTask(task);
               setCurrDate(date);
               setCurrDescription(description);
+              console.log(date);
             }}
           >
             <i class="fa-solid fa-angle-right"></i>
@@ -150,30 +177,33 @@ export default function Tasks({ username }) {
           ></i>
         </div>
         <div className="sidebar-header">
-          <div className="sidebar-header-maintext">Task:</div>
+          <div className="sidebar-header-maintext">Task</div>
           <div className="sidebar-input-holder">
             <input
               type="text"
               className="add-task"
-              placeholder={currTask}
+              id="editedTask"
+              defaultValue={currTask}
             ></input>
           </div>
         </div>
         <div className="sidebar-main">
-          <div className="sidebar-main-maintext">Description:</div>
+          <div className="sidebar-main-maintext">Description</div>
           <div className="sidebar-input-holder">
-            <input
+            <textarea
               className="add-description"
               type="text"
-              placeholder={currDescriptioon}
-            ></input>
+              id="editedDescription"
+              defaultValue={currDescriptioon}
+            ></textarea>
           </div>
           <div className="sidebar-main-duedate-holder">
             <div className="sidebar-main-duedate-maintext">Due date: </div>
             <input
               type="date"
               className="sidebar-main-duedate"
-              placeholder={currDate}
+              id="editedDate"
+              defaultValue={currDate}
             ></input>
           </div>
         </div>
@@ -189,7 +219,18 @@ export default function Tasks({ username }) {
             </button>
           </div>
           <div className="confirm">
-            <button>Edit task</button>
+            <button
+              onClick={() => {
+                const task = getTaskFrmUser();
+                const description = getDescriptionFrmUser();
+                const date = getDateFrmUser();
+                editTask(username, idUnderWork, task, description, date);
+                setRefresh("true");
+                setIsSidebarActive(false);
+              }}
+            >
+              Save changes
+            </button>
           </div>
         </div>
         <div className="filler"></div>
@@ -203,7 +244,7 @@ export default function Tasks({ username }) {
     getDescriptionFrmUser,
     getDateFrmUser,
     username,
-    addTask
+    addTask,
   }) {
     return (
       <>
@@ -213,48 +254,48 @@ export default function Tasks({ username }) {
             isAddTaskActive === true ? "sidebar sidebar-active" : "sidebar"
           }
         >
+          <div className="close-sidebar">
+            <i
+              class="fa-solid fa-xmark close-icon"
+              onClick={() => {
+                setIsAddTaskActive(false);
+              }}
+            ></i>
+          </div>
           <div className="sidebar-header">
-            <div className="sidebar-header-maintext">Task:</div>
+            <div className="sidebar-header-maintext">Task</div>
             <div className="sidebar-input-holder">
               <input
                 type="text"
                 className="add-task"
                 placeholder="Enter task here"
-                id="task"
+                id="newTask"
               ></input>
             </div>
           </div>
           <div className="sidebar-main">
-            <div className="sidebar-main-maintext">Description:</div>
+            <div className="sidebar-main-maintext">Description</div>
             <div className="sidebar-input-holder">
-              <input
+              <textarea
                 className="add-description"
                 type="text"
                 placeholder="Description"
-                id="description"
-              ></input>
+                id="newDescription"
+              ></textarea>
             </div>
             <div className="sidebar-main-duedate-holder">
-              <div className="sidebar-main-duedate-maintext">Due date: </div>
+              <div className="sidebar-main-duedate-maintext">Due date : </div>
               <input
                 type="date"
                 className="sidebar-main-duedate"
-                id="date"
+                id="newDate"
               ></input>
             </div>
           </div>
-          <div className="sidebar-footer">
-            <div className="delete-task">
-              <button
-                onClick={() => {
-                  setIsAddTaskActive(false);
-                }}
-              >
-                Cancel
-              </button>
-            </div>
+          <div className="sidebar-footer addtask-footer">
             <div className="confirm">
               <button
+                className="btn"
                 onClick={() => {
                   const task = getTaskFrmUser();
                   const description = getDescriptionFrmUser();
@@ -267,24 +308,46 @@ export default function Tasks({ username }) {
               </button>
             </div>
           </div>
+          <div className="filler"></div>
         </div>
       </>
     );
   }
 
   const getTaskFrmUser = () => {
-    const task = document.getElementById("task").value;
-    return task;
+    if (isSidebarActive === true) {
+      const task = document.getElementById("editedTask").value;
+      return task;
+    }
+
+    if (isAddTaskActive === true) {
+      const task = document.getElementById("newTask").value;
+      return task;
+    }
   };
 
   const getDescriptionFrmUser = () => {
-    const description = document.getElementById("description").value;
-    return description;
+    if (isSidebarActive === true) {
+      const description = document.getElementById("editedDescription").value;
+      return description;
+    }
+
+    if (isAddTaskActive === true) {
+      const description = document.getElementById("newDescription").value;
+      return description;
+    }
   };
 
   const getDateFrmUser = () => {
-    const date = document.getElementById("date").value;
-    return date;
+    if (isSidebarActive === true) {
+      const date = document.getElementById("editedDate").value;
+      return date;
+    }
+
+    if (isAddTaskActive === true) {
+      const date = document.getElementById("newDate").value;
+      return date;
+    }
   };
 
   useEffect(() => {
