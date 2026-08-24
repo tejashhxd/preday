@@ -1,10 +1,10 @@
 import "../Style/Authentication.css";
 import { useState } from "react";
 
-export default function Authentication({ setUsername }) {
+export default function Authentication({ setIsLoggedIn }) {
   const [state, setState] = useState("Login");
   const [message, setMessage] = useState("");
-  const BASE_LINK = "https://predaybackend.onrender.com";
+  const BASE_LINK = process.env.REACT_APP_BASE_LINK;
 
   const getUsername = () => {
     const username = document.getElementById("username").value;
@@ -22,6 +22,7 @@ export default function Authentication({ setUsername }) {
     try {
       const response = await fetch(`${BASE_LINK}/login`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -34,10 +35,17 @@ export default function Authentication({ setUsername }) {
       const data = await response.json();
 
       if (data.message) {
-        console.log("true");
+        const csrfResponse = await fetch(`${BASE_LINK}/csrf`, {
+          method: "GET",
+          credentials: "include",
+        });
+        
+        const csrfData = await csrfResponse.json();
+        localStorage.setItem("csrf_token", csrfData.csrf_token);
+
         setMessage("");
         console.log("logging in....");
-        setUsername(username);
+        setIsLoggedIn(true);
       }
 
       if (data.error) {
@@ -48,6 +56,8 @@ export default function Authentication({ setUsername }) {
       console.log("Error", error.message);
     }
   }
+
+  
 
   async function createUser(username, password) {
     try {
@@ -71,7 +81,6 @@ export default function Authentication({ setUsername }) {
       if (data.message) {
         console.log(data.message);
         setMessage(data.message);
-        // setUsername(username);
       }
 
       if (data.error) {

@@ -1,8 +1,8 @@
 import "../Style/upcoming.css";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
-export default function Tasks({ username }) {
-  const BASE_LINK = "https://predaybackend.onrender.com";
+export default function Tasks({ isLoggedIn }) {
+  const BASE_LINK = process.env.REACT_APP_BASE_LINK;
   const [data, setData] = useState([]);
   const [refresh, setRefresh] = useState("");
   const [isSidebarActive, setIsSidebarActive] = useState(false);
@@ -16,10 +16,11 @@ export default function Tasks({ username }) {
   const [currDescriptioon, setCurrDescription] = useState("");
   const [currDate, setCurrDate] = useState("");
 
-  async function getTask(username) {
+  const getTask = useCallback(async () => {
     try {
-      const response = await fetch(`${BASE_LINK}/task?username=${username}`, {
+      const response = await fetch(`${BASE_LINK}/task`, {
         method: "GET",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -32,20 +33,26 @@ export default function Tasks({ username }) {
       }
 
       setData(data);
+
     } catch (err) {
       console.log("error:", err);
     }
+  }, [BASE_LINK])
+
+  const getCsrfToken = () => {
+    return localStorage.getItem("csrf_token");
   }
 
-  async function addTask(username, task, description, date) {
+  async function addTask(task, description, date) {
     try {
       const response = await fetch(`${BASE_LINK}/task`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          "X-CSRF-TOKEN": getCsrfToken()
         },
         body: JSON.stringify({
-          username: username,
           task: task,
           description: description,
           date: date,
@@ -58,22 +65,24 @@ export default function Tasks({ username }) {
         throw new Error(data.error || "something went wrong");
       }
 
-      await getTask(username);
+      await getTask();
+
       console.log(task);
     } catch (err) {
       console.log(err.message);
     }
   }
 
-  async function deleteTask(username, id) {
+  async function deleteTask(id) {
     try {
       const response = await fetch(`${BASE_LINK}/task`, {
         method: "DELETE",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
+          "X-CSRF-TOKEN": getCsrfToken()
         },
         body: JSON.stringify({
-          username: username,
           id: id,
         }),
       });
@@ -90,15 +99,16 @@ export default function Tasks({ username }) {
     }
   }
 
-  async function editTask(username, id, task, description, date) {
+  async function editTask(id, task, description, date) {
     try {
       const response = await fetch(`${BASE_LINK}/task`, {
         method: "PUT",
+        credentials: "include",
         headers: {
           "Content-Type": "Application/json",
+          "X-CSRF-TOKEN": getCsrfToken()
         },
         body: JSON.stringify({
-          username: username,
           id: id,
           task: task,
           description: description,
@@ -119,10 +129,8 @@ export default function Tasks({ username }) {
   function TaskDiv({
     task,
     id,
-    username,
     description,
     date,
-    deleteTask,
     setIdUnderWork,
   }) {
     return (
@@ -154,7 +162,6 @@ export default function Tasks({ username }) {
   function Sidebar({
     isSidebarActive,
     sidebarRef,
-    username,
     idUnderWork,
     deleteTask,
     currTask,
@@ -211,7 +218,7 @@ export default function Tasks({ username }) {
           <div className="delete-task">
             <button
               onClick={() => {
-                deleteTask(username, idUnderWork);
+                deleteTask(idUnderWork);
                 setIsSidebarActive(false);
               }}
             >
@@ -224,7 +231,7 @@ export default function Tasks({ username }) {
                 const task = getTaskFrmUser();
                 const description = getDescriptionFrmUser();
                 const date = getDateFrmUser();
-                editTask(username, idUnderWork, task, description, date);
+                editTask(idUnderWork, task, description, date);
                 setRefresh("true");
                 setIsSidebarActive(false);
               }}
@@ -243,7 +250,6 @@ export default function Tasks({ username }) {
     getTaskFrmUser,
     getDescriptionFrmUser,
     getDateFrmUser,
-    username,
     addTask,
   }) {
     return (
@@ -300,7 +306,7 @@ export default function Tasks({ username }) {
                   const task = getTaskFrmUser();
                   const description = getDescriptionFrmUser();
                   const date = getDateFrmUser();
-                  addTask(username, task, description, date);
+                  addTask(task, description, date);
                   setIsAddTaskActive(false);
                 }}
               >
@@ -351,16 +357,15 @@ export default function Tasks({ username }) {
   };
 
   useEffect(() => {
-    getTask(username);
+    getTask();
     setRefresh("");
-  }, [username, refresh]);
+  }, [refresh, getTask]);
 
   return (
     <>
       <Sidebar
         isSidebarActive={isSidebarActive}
         idebarRef={sidebarRef}
-        username={username}
         idUnderWork={idUnderWork}
         deleteTask={deleteTask}
         currTask={currTask}
@@ -372,7 +377,6 @@ export default function Tasks({ username }) {
         getTaskFrmUser={getTaskFrmUser}
         getDescriptionFrmUser={getDescriptionFrmUser}
         getDateFrmUser={getDateFrmUser}
-        username={username}
         addTask={addTask}
       />
       <div className="main">
@@ -396,7 +400,6 @@ export default function Tasks({ username }) {
               key={tasks.id}
               task={tasks.task}
               id={tasks.id}
-              username={username}
               description={tasks.description}
               date={tasks.date}
               deleteTask={deleteTask}

@@ -1,7 +1,7 @@
 import "../Style/navbar.css";
 import { useState, useEffect, useRef } from "react";
 
-export default function Navbar({ username, logOut }) {
+export default function Navbar({ userLogOut }) {
   const [menu, setMenu] = useState("");
   const menuRef = useRef();
   const menuBarRef = useRef();
@@ -65,7 +65,7 @@ export default function Navbar({ username, logOut }) {
           <div
             className="logout"
             onClick={() => {
-              logOut();
+              userLogOut();
             }}
           >
             logout?

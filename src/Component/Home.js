@@ -2,11 +2,11 @@ import Navbar from "./Navbar";
 import Tasks from "./Upcoming"
 
 
-export default function Home({logOut, username}){
+export default function Home({userLogOut, isLoggedIn}){
     return(
         <>
-        <Navbar username={username} logOut={logOut}/>
-        <Tasks username={username}/>
+        <Navbar userLogOut={userLogOut}/>
+        <Tasks isLoggedIn={isLoggedIn}/>
         
         </>
     );
