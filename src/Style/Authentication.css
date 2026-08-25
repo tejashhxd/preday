@@ -1,13 +1,14 @@
-#authentication-body{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
+#authentication-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
 }
 
-.vfx{
+
+.vfx {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,11 +19,10 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  color: white;
-  
+  color: black;
 }
 
-.vfx-header{
+.vfx-header {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -32,7 +32,7 @@
   font-size: 300%;
 }
 
-.vfx-content{
+.vfx-content {
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -42,13 +42,13 @@
   font-weight: lighter;
 }
 
-.credential-box{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 50%;
-    width: 45%;
+.credential-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+  width: 45%;
 }
 
 input {
@@ -56,12 +56,7 @@ input {
   border: 1px solid #cfcfcf;
   margin: 10px;
   border-radius: 8px;
-  background: linear-gradient(
-    to bottom,
-    #ffffff 0%,
-    #f7f7f7 45%,
-    #ececec 100%
-  );
+  background: linear-gradient(to bottom, #ffffff 0%, #f7f7f7 45%, #ececec 100%);
   box-shadow:
     inset 0 1px 1px rgba(255, 255, 255, 0.8),
     inset 0 -1px 2px rgba(0, 0, 0, 0.05),
@@ -71,17 +66,11 @@ input {
   transition: all 0.2s ease;
 }
 
-
 button {
   padding: 6px 12px;
-  border: 1px solid #c75fed;
+  border: 1px solid #27827d;
   border-radius: 8px;
-  background: linear-gradient(
-    to bottom,
-    #ca6fff 0%,
-    #d84ae2 50%,
-    #b635bd 100%
-  );
+  background: linear-gradient(to bottom, #27827d 100%);
   color: white;
   font-size: 16px;
   font-weight: 600;
@@ -93,27 +82,27 @@ button {
   transition: all 0.2s ease;
 }
 
-.credential-header{
-    color: #ececec;
-    font-size: xx-large;
+.credential-header {
+  color: #ececec;
+  font-size: xx-large;
 }
 
-.decor{
-    color: #c75fed;
+.decor {
+  color: #27827d;
 }
 
-.credential-footer{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 15px;
-    color: #ececec;
-    height: 10%;
+.credential-footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 15px;
+  color: #ececec;
+  height: 10%;
 }
 
-a{
-    color: #ececec;
+a {
+  color: #ececec;
 }
 
 .switch {
@@ -141,7 +130,7 @@ a{
   #authentication-body {
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(135deg, #24123b, #5a4588);
+    background: rgb(37, 36, 36);
     justify-content: center;
     align-items: center;
   }
@@ -154,10 +143,6 @@ a{
     width: 85%;
     max-width: 350px;
     padding: 30px 20px;
-    border-radius: 15px;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
   }
 
   .credential-header {
@@ -170,15 +155,48 @@ a{
     width: 100%;
     margin: 10px 0;
     box-sizing: border-box;
+
+    padding: 13px 16px;
+
+    border: 1px solid #b8d8c5;
+    border-radius: 8px;
+
+    background: #ffffff;
+    box-shadow: none;
+
+    outline: none;
+    font-size: 16px;
   }
 
   button {
     width: 100%;
     margin-top: 15px;
     padding: 12px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #27827d;
+    color: white;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+    box-shadow: none;
+    transition: 0.2s ease;
+  }
+
+  button:hover {
+    background: #1f6d68;
   }
 
   .credential-footer {
     margin-top: 20px;
+    color: white;
+  }
+
+  a {
+    color: #27827d;
   }
 }
