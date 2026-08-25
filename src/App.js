@@ -46,7 +46,7 @@ function App() {
   // }
 
   useEffect(() => {
-    async function me(setIsLoggedIn) {
+    async function me() {
       try {
         const response = await fetch(`${BASE_LINK}/me`, {
           method: "GET",
@@ -63,9 +63,9 @@ function App() {
         }
 
         if (data.id) {
-          setIsLoggedIn = true;
+          setIsLoggedIn(true);
         } else {
-          setIsLoggedIn = false;
+          setIsLoggedIn(false);
         }
       } catch (err) {
         console.log("error: ", err);
