@@ -12,27 +12,19 @@ The project started as a simple CRUD application and has evolved into a more com
 
 ---
 
-<!-- ## Screenshots
-
-### Dashboard
-
-<!-- Add dashboard screenshot here -->
-
-![Dashboard](./screenshots/dashboard.png)
+## Screenshots
 
 ### Authentication
-
-<!-- Add login/register screenshot here -->
 
 ![Authentication](./screenshots/authentication.png)
 
 ### Task Management
 
-<!-- Add task management screenshot here -->
-
 ![Task Management](./screenshots/tasks.png)
 
---- -->
+![menu](./screenshots/menu.png)
+
+---
 
 ## Features
 
