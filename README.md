@@ -1,132 +1,284 @@
 # PreDay
 
-A full-stack productivity/task management web app built with **React.js**, **Flask**, and **SQLite3** that allows users to register, log in, and manage daily tasks.
+PreDay is a full-stack task management application designed to help users organize and manage their daily tasks. It is built with React.js on the frontend and Flask on the backend, with PostgreSQL providing persistent data storage.
+
+The project started as a simple CRUD application and has evolved into a more complete full-stack system with JWT-based authentication, HTTP-only cookies, SQLAlchemy ORM, PostgreSQL, and cloud deployment.
+
+## Live Application
+
+**Frontend:** https://preday.netlify.app/
+
+**Backend:** https://predaybackend.onrender.com/
 
 ---
 
-## Live Demo
+<!-- ## Screenshots
 
-* **Frontend:** https://preday.netlify.app/
-* **Backend API:** https://predaybackend.onrender.com
+### Dashboard
 
----
+<!-- Add dashboard screenshot here -->
+
+![Dashboard](./screenshots/dashboard.png)
+
+### Authentication
+
+<!-- Add login/register screenshot here -->
+
+![Authentication](./screenshots/authentication.png)
+
+### Task Management
+
+<!-- Add task management screenshot here -->
+
+![Task Management](./screenshots/tasks.png)
+
+--- -->
 
 ## Features
 
-* User Registration & Login
-* Persistent Authentication using Local Storage
-* Add New Tasks
-* Delete Tasks
-* Fetch Tasks from Backend API
-* Responsive Frontend UI
-* Full Frontend ↔ Backend Integration
+* User registration and login
+* JWT-based authentication
+* HTTP-only authentication cookies
+* Protected backend routes
+* User-specific task management
+* Create and delete tasks
+* RESTful API architecture
+* PostgreSQL database
+* SQLAlchemy ORM
+* React Router based navigation
+* Responsive user interface
+* Separate frontend and backend deployment
 
 ---
 
-## Tech Stack
+## Technology Stack
 
 ### Frontend
 
 * React.js
+* JavaScript
 * CSS
-* Axios / Fetch API
+* React Router
+* Fetch API
 
 ### Backend
 
-* Flask
 * Python
-* SQLite3
+* Flask
+* Flask-SQLAlchemy
 * REST API
-* Render Deployment
+* JWT Authentication
+
+### Database
+
+* PostgreSQL
+* SQLAlchemy ORM
+
+### Deployment
+
+* Netlify — Frontend
+* Render — Backend
+* Render PostgreSQL — Database
+
+---
+
+## Application Architecture
+
+```text
+┌──────────────────────┐
+│      React.js        │
+│      Frontend        │
+└──────────┬───────────┘
+           │
+           │ HTTP / REST API
+           ▼
+┌──────────────────────┐
+│       Flask          │
+│       Backend        │
+└──────────┬───────────┘
+           │
+           │ SQLAlchemy
+           ▼
+┌──────────────────────┐
+│     PostgreSQL       │
+│      Database        │
+└──────────────────────┘
+
+Authentication
+React Client
+     │
+     │ HTTP-only Cookie
+     ▼
+Flask JWT Authentication
+```
+
+---
+
+## Authentication
+
+PreDay uses JWT-based authentication with HTTP-only cookies.
+
+The authentication flow works as follows:
+
+1. A user registers or logs into the application.
+2. The Flask backend validates the credentials.
+3. After successful authentication, a JWT is generated.
+4. The JWT is stored in an HTTP-only cookie.
+5. The browser automatically includes the cookie with subsequent requests.
+6. Protected API endpoints validate the JWT before returning or modifying user data.
+7. Logging out invalidates the authenticated session.
+
+Using HTTP-only cookies prevents client-side JavaScript from directly accessing the authentication token and provides a safer alternative to storing JWTs in local storage.
+
+---
+
+## Database
+
+PreDay uses PostgreSQL for persistent data storage.
+
+Database operations are handled through SQLAlchemy ORM, providing a structured model-based approach for interacting with the database.
+
+The production PostgreSQL database is hosted through Render.
 
 ---
 
 ## Project Structure
 
-```bash id="p2r7lc"
+```text
 preday/
 │
 ├── public/
+│
 ├── src/
-│   ├── Component/
-│   │   ├── Authentication.js
-│   │   ├── Home.js
-│   │   ├── Navbar.js
-│   │   └── Tasks.js
-│   │
+│   ├── components/
+│   ├── pages/
 │   ├── App.js
 │   └── index.js
 │
-└── package.json
+├── package.json
+├── package-lock.json
+├── .gitignore
+└── README.md
 ```
 
----
-
-## How It Works
-
-1. Users register or log in
-2. Authentication request is sent to Flask backend
-3. User session data is stored in local storage
-4. Logged-in users can create and manage tasks
-5. All task operations communicate with backend API
+The exact structure may evolve as the application continues to be developed.
 
 ---
 
-## Backend Repository
+## Local Development
 
-> Private Repository
-> Backend is hosted separately on Render.
+### Prerequisites
 
-**Backend Deployment Link:**
-https://predaybackend.onrender.com
+Make sure the following are installed:
 
----
+* Node.js
+* npm
+* Python 3.x
+* PostgreSQL
 
-## Database Note
+### Clone the repository
 
-This project currently uses **SQLite3** for database storage.
-
-> **Important:** Since the backend is deployed on Render's free tier, the server may enter standby/sleep mode after inactivity.
-> Because SQLite is stored on the instance filesystem, database data may reset/reinitialize when the server restarts or redeploys.
-
-This is a deployment limitation of the free hosting environment and not an application bug.
-
----
-
-## Installation (Frontend)
-
-```bash id="p19kdl"
+```bash
 git clone https://github.com/tejashhxd/preday.git
 cd preday
+```
+
+### Install frontend dependencies
+
+```bash
 npm install
+```
+
+### Start the frontend
+
+```bash
 npm start
 ```
+
+The React development server will start at:
+
+```text
+http://localhost:3000
+```
+
+### Backend
+
+The Flask backend must be configured and running separately for authentication, database operations, and task management.
+
+Backend configuration requires the appropriate PostgreSQL connection details and JWT secret to be provided through environment variables.
 
 ---
 
 ## Environment Variables
 
-Create a `.env` file:
+Sensitive configuration should be stored in environment variables rather than committed to the repository.
 
-```env id="8h5nzy"
-REACT_APP_API_URL=your_backend_url_here
+Example:
+
+```env
+DATABASE_URL=your_postgresql_database_url
+JWT_SECRET_KEY=your_secret_key
 ```
+
+Make sure to use the exact variable names required by the backend configuration.
+
+Never commit database credentials, JWT secrets, API keys, or other sensitive information to the repository.
 
 ---
 
-## Future Improvements
+## Roadmap
 
-* Migrate to PostgreSQL / MongoDB for Persistent Cloud Database
-* Add Edit Task Feature
-* Add Due Dates / Priority Levels
-* JWT Authentication
-* Drag & Drop Task Ordering
-* Dark Mode
+The application is actively being developed. Planned improvements include:
+
+* Task categories
+* Task editing
+* Due dates
+* Task priorities
+* Sorting and filtering
+* Improved task organization
+* UI and UX improvements
+* Dark mode
+* Additional productivity features
+
+---
+
+## Project Goals
+
+PreDay was built as a practical full-stack project to gain experience in designing, developing, deploying, and maintaining a web application.
+
+The project provided hands-on experience with:
+
+* React.js
+* Flask
+* REST APIs
+* JWT authentication
+* HTTP-only cookies
+* SQLAlchemy
+* PostgreSQL
+* Database migrations
+* Frontend and backend integration
+* Cloud deployment
+
+---
+
+## Deployment
+
+The application is deployed using separate frontend and backend services.
+
+The React frontend is deployed on Netlify, while the Flask backend and PostgreSQL database are hosted on Render.
+
+This separation allows the frontend and backend to be developed, deployed, and maintained independently.
 
 ---
 
 ## Author
 
 **Tejash**
+
 GitHub: https://github.com/tejashhxd
 
+---
+
+## License
+
+This project is currently intended for learning and personal development.
