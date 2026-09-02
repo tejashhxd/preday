@@ -1,6 +1,6 @@
 import Navbar from "./Navbar";
 import Tasks from "./Upcoming";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export default function Home({ userLogOut }) {
   const [currCategory, setCurrCategory] = useState("Tasks");
@@ -11,7 +11,7 @@ export default function Home({ userLogOut }) {
     return localStorage.getItem("csrf_token");
   };
 
-  async function getCat() {
+  const getCat = useCallback(async () => {
     try {
       const response = await fetch(`${BASE_LINK}/task`, {
         method: "GET",
@@ -35,17 +35,16 @@ export default function Home({ userLogOut }) {
           );
 
           setCategories(categorySet);
-
         }
       }
     } catch (err) {
       console.log("error: ", err);
     }
-  }
+  }, [BASE_LINK]);
 
   useEffect(() => {
     getCat();
-  }, []);
+  }, [getCat]);
 
   return (
     <>
