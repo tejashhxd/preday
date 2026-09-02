@@ -63,6 +63,15 @@ function App() {
         }
 
         if (data.id) {
+          const crsfResponse = await fetch(`${BASE_LINK}/csrf`, {
+            method: "GET",
+            credentials: "include",
+          });
+
+          const csrfData = await crsfResponse.json();
+          
+          localStorage.setItem("csrf_token", csrfData.csrf_token);
+
           setIsLoggedIn(true);
         } else {
           setIsLoggedIn(false);

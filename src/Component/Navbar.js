@@ -1,12 +1,89 @@
 import "../Style/navbar.css";
 import { useState, useEffect, useRef } from "react";
 
-export default function Navbar({ userLogOut }) {
+export default function Navbar({
+  userLogOut,
+  setCurrCategory,
+  setCategories,
+  categories,
+}) {
   const [menu, setMenu] = useState("");
+  const [refresh, setRefresh] = useState("");
+  const [isAddCategoryActive, setIsAddCategoryActive] = useState(false);
   const menuRef = useRef();
+
   const menuBarRef = useRef();
 
-  useEffect((e) => {
+  function AddCetgoryText() {
+    return (
+      <>
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            setRefresh("Refresh");
+            setIsAddCategoryActive(true);
+            console.log("clicked addCategory");
+          }}
+        >
+          <i className="fa-solid fa-plus"></i>
+          Create New Category
+        </div>
+      </>
+    );
+  }
+
+  function AddCetgory() {
+    return (
+      <>
+        <div>
+          <input placeholder="addCategory" id="categoryName"></input>
+          <button
+            onClick={(e) => {
+              const categoryToAdd =
+                document.getElementById("categoryName").value;
+
+              e.stopPropagation();
+
+              if(!categoryToAdd) return;
+
+              setCategories((prev) => {
+                const update = new Set(prev);
+                update.add(categoryToAdd);
+                return update;
+              });
+
+              setCurrCategory(categoryToAdd);
+              setIsAddCategoryActive(false);
+            }}
+          >
+            Add
+          </button>
+        </div>
+      </>
+    );
+  }
+
+  function Category({ name }) {
+    return (
+      <>
+        <div id={name} className="tasks">
+          <div
+            onClick={() => {
+              setCurrCategory(name);
+              setMenu("");
+            }}
+          >
+            {name}
+          </div>
+          <div>
+            <i className="category-delete fa-solid fa-trash-can"></i>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  useEffect(() => {
     const handleClick = (e) => {
       if (
         !menuRef.current.contains(e.target) &&
@@ -21,7 +98,11 @@ export default function Navbar({ userLogOut }) {
     return () => {
       document.removeEventListener("click", handleClick);
     };
-  });
+  }, []);
+
+  useEffect(() => {
+    setRefresh("");
+  }, [refresh]);
 
   return (
     <>
@@ -29,24 +110,13 @@ export default function Navbar({ userLogOut }) {
         className={menu === "active" ? "menu menu-active" : "menu"}
         ref={menuRef}
       >
-        <div className="menu-header">TASKS</div>
-        <div className="tasks">
-          <div>
-            <i className="fa-solid fa-angles-right task-icon"></i>
-          </div>
-          <div>Upcoming</div>
+        <div className="menu-header">
+          {isAddCategoryActive === false ? <AddCetgoryText /> : <AddCetgory />}
         </div>
-        <div className="tasks">
-          <div>
-            <i class="fa-solid fa-bars-progress task-icon"></i>
-          </div>
-          <div>Today</div>
-        </div>
-        <div className="tasks">
-          <div>
-            <i class="fa-solid fa-calendar-days task-icon"></i>{" "}
-          </div>
-          <div>Calendar</div>
+        <div className="category-section">
+          {[...categories].map((cat) => (
+            <Category key={cat} name={cat} />
+          ))}
         </div>
       </div>
       <div className="navbar">

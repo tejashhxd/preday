@@ -1,7 +1,7 @@
 import "../Style/upcoming.css";
 import { useState, useEffect, useRef, useCallback } from "react";
 
-export default function Tasks({ isLoggedIn }) {
+export default function Tasks({currCategory}) {
   const BASE_LINK = process.env.REACT_APP_BASE_LINK;
   const [data, setData] = useState([]);
   const [refresh, setRefresh] = useState("");
@@ -143,13 +143,12 @@ export default function Tasks({ isLoggedIn }) {
           <div
             ref={editTaskRef}
             className="task-arrow"
-            onClick={(e) => {
+            onClick={() => {
               setIsSidebarActive(true);
               setIdUnderWork(id);
               setCurrTask(task);
               setCurrDate(date);
               setCurrDescription(description);
-              console.log(date);
             }}
           >
             <i class="fa-solid fa-angle-right"></i>
@@ -380,7 +379,7 @@ export default function Tasks({ isLoggedIn }) {
         addTask={addTask}
       />
       <div className="main">
-        <div className="header">TODAY</div>
+        <div className="header">{currCategory}</div>
         <div className="add">
           <div>
             <i class="fa-solid fa-plus"></i>
