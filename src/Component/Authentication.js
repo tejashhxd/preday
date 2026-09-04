@@ -99,7 +99,7 @@ export default function Authentication({ setIsLoggedIn }) {
           <div className="vfx-header">{(state === "Login") ? "Welcome Back!" : "Create User"}</div>
           <div className="vfx-content">{(state === "Login") ? 
           "You can sign in to access with your existing account" : 
-          "Plan your days wfficiently with us"}</div>
+          "Plan your days efficiently with us"}</div>
         </div>
         <div className="credential-box">
           <div className="credential-header">{state}</div>
