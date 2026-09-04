@@ -8,11 +8,16 @@ export default function Navbar({
   categories,
 }) {
   const [menu, setMenu] = useState("");
-  const [refresh, setRefresh] = useState("");
   const [isAddCategoryActive, setIsAddCategoryActive] = useState(false);
+  const [refresh, setRefresh] = useState("");
   const menuRef = useRef();
+  const BASE_LINK = process.env.REACT_APP_BASE_LINK;
 
   const menuBarRef = useRef();
+
+  const getCsrfToken = () => {
+    return localStorage.getItem("csrf_token");
+  }
 
   function AddCetgoryText() {
     return (
@@ -63,6 +68,37 @@ export default function Navbar({
     );
   }
 
+  async function deleteCategory(categoryTodelete){
+    try{
+      const response = await fetch(`${BASE_LINK}/category`, {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-TOKEN": getCsrfToken()
+        },
+        body: JSON.stringify({
+          category: categoryTodelete
+        }),
+      });
+
+      const data = await response.json();
+
+      if(!response.ok){
+        throw new Error(data.error || "something went wrong");
+      }
+
+      setCategories((prev) => {
+        const updated = new Set(prev);
+        updated.delete(categoryTodelete);
+        return updated;
+      })
+
+    }catch(err){
+      console.log(err.message);
+    }
+  }
+
   function Category({ name }) {
     return (
       <>
@@ -75,7 +111,9 @@ export default function Navbar({
           >
             {name}
           </div>
-          <div>
+          <div onClick={() => {
+            deleteCategory(name);
+          }}>
             <i className="category-delete fa-solid fa-trash-can"></i>
           </div>
         </div>
@@ -102,7 +140,7 @@ export default function Navbar({
 
   useEffect(() => {
     setRefresh("");
-  }, [refresh]);
+  }, [refresh, setRefresh]);
 
   return (
     <>

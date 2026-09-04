@@ -29,9 +29,10 @@ export default function Home({ userLogOut }) {
       }
 
       if (data) {
-        const categorySet = new Set(
-          data.map((task) => task.category).filter((category) => category),
-        );
+        const categorySet = new Set([
+          "Tasks",
+          ...data.map((task) => task.category).filter((category) => category),
+        ]);
 
         setCategories(categorySet);
       }
