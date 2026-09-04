@@ -218,21 +218,6 @@ Never commit database credentials, JWT secrets, API keys, or other sensitive inf
 
 ---
 
-## Roadmap
-
-The application is actively being developed. Planned improvements include:
-
-* Task categories
-* Task editing
-* Due dates
-* Task priorities
-* Sorting and filtering
-* Improved task organization
-* UI and UX improvements
-* Dark mode
-* Additional productivity features
-
----
 
 ## Project Goals
 
