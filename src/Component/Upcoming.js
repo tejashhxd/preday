@@ -32,12 +32,19 @@ export default function Tasks({currCategory}) {
         throw new Error(data.error || "Something went wrong");
       }
 
-      setData(data);
+
+      if(data){
+        const TaskToDisplay = data.filter(
+          (task) => task.category === currCategory
+        );
+
+        setData(TaskToDisplay);
+      }
 
     } catch (err) {
       console.log("error:", err);
     }
-  }, [BASE_LINK])
+  }, [BASE_LINK, currCategory])
 
   const getCsrfToken = () => {
     return localStorage.getItem("csrf_token");
@@ -55,6 +62,7 @@ export default function Tasks({currCategory}) {
         body: JSON.stringify({
           task: task,
           description: description,
+          category: currCategory,
           date: date,
         }),
       });
