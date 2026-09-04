@@ -29,13 +29,11 @@ export default function Home({ userLogOut }) {
       }
 
       if (data) {
-        if (data.category) {
-          const categorySet = new Set(
-            data.map((task) => task.category).filter((category) => category),
-          );
+        const categorySet = new Set(
+          data.map((task) => task.category).filter((category) => category),
+        );
 
-          setCategories(categorySet);
-        }
+        setCategories(categorySet);
       }
     } catch (err) {
       console.log("error: ", err);
