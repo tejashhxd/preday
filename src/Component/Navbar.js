@@ -17,7 +17,7 @@ export default function Navbar({
 
   const getCsrfToken = () => {
     return localStorage.getItem("csrf_token");
-  }
+  };
 
   function AddCetgoryText() {
     return (
@@ -27,7 +27,6 @@ export default function Navbar({
             e.stopPropagation();
             setRefresh("Refresh");
             setIsAddCategoryActive(true);
-            console.log("clicked addCategory");
           }}
         >
           <i className="fa-solid fa-plus"></i>
@@ -49,7 +48,7 @@ export default function Navbar({
 
               e.stopPropagation();
 
-              if(!categoryToAdd) return;
+              if (!categoryToAdd) return;
 
               setCategories((prev) => {
                 const update = new Set(prev);
@@ -68,23 +67,23 @@ export default function Navbar({
     );
   }
 
-  async function deleteCategory(categoryTodelete){
-    try{
+  async function deleteCategory(categoryTodelete) {
+    try {
       const response = await fetch(`${BASE_LINK}/category`, {
         method: "DELETE",
         credentials: "include",
         headers: {
           "Content-Type": "application/json",
-          "X-CSRF-TOKEN": getCsrfToken()
+          "X-CSRF-TOKEN": getCsrfToken(),
         },
         body: JSON.stringify({
-          category: categoryTodelete
+          category: categoryTodelete,
         }),
       });
 
       const data = await response.json();
 
-      if(!response.ok){
+      if (!response.ok) {
         throw new Error(data.error || "something went wrong");
       }
 
@@ -92,9 +91,8 @@ export default function Navbar({
         const updated = new Set(prev);
         updated.delete(categoryTodelete);
         return updated;
-      })
-
-    }catch(err){
+      });
+    } catch (err) {
       console.log(err.message);
     }
   }
@@ -102,20 +100,26 @@ export default function Navbar({
   function Category({ name }) {
     return (
       <>
-        <div id={name} className="tasks">
-          <div
-            onClick={() => {
-              setCurrCategory(name);
-              setMenu("");
-            }}
-          >
-            {name}
-          </div>
-          <div onClick={() => {
-            deleteCategory(name);
-          }}>
-            <i className="category-delete fa-solid fa-trash-can"></i>
-          </div>
+        <div
+          id={name}
+          className="tasks"
+          onClick={() => {
+            setCurrCategory(name);
+            setMenu("");
+          }}
+        >
+          <div>{name}</div>
+          {name !== "Tasks" && (
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setCurrCategory("Tasks");
+                deleteCategory(name);
+              }}
+            >
+              <i className="category-delete fa-solid fa-trash-can"></i>
+            </div>
+          )}
         </div>
       </>
     );
@@ -164,7 +168,6 @@ export default function Navbar({
             ref={menuBarRef}
             onClick={() => {
               setMenu("active");
-              console.log("clicked menu icon");
             }}
           ></i>
           <span className="decor logo">Preday</span>
